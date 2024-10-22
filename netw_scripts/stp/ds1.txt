@@ -1,0 +1,21 @@
+hostname DS1
+!
+int g1/0/2
+no switchport
+ip add 172.17.9.69 255.255.255.252
+no shut
+ip nat outside 
+!
+int g1/0/1
+no switchport
+ip add 192.168.1.1 255.255.255.0
+no shut 
+ip nat inside
+!
+ip nat pool INET1 203.149.210.136 203.149.210.143 netmask 255.255.255.248
+ip nat inside source list 1 pool INET1 overload 
+access-list 1 permit 192.168.1.0 0.0.0.255 
+ip route 0.0.0.0 0.0.0.0 172.17.9.70
+!
+ip routing
+!
